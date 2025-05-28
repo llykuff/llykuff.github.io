@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农产品质量追溯系统</title>
+    <link rel="stylesheet" href="1.css">
+</head>
+<body>
+    <header class="header">
+        <h1>农产品质量追溯平台</h1>
+        <div class="qrcode-container" id="qrcode"></div>
+    </header>
+
+    <main class="main-content">
+        <!-- 扫码输入框（用于模拟扫码） -->
+        <div class="scan-input">
+            <input type="text" id="productId" placeholder="请扫描二维码或输入追溯码">
+            <button onclick="searchProduct()">查询</button>
+        </div>
+
+        <!-- 追溯信息展示 -->
+        <div class="trace-info" id="traceInfo" style="display: none;">
+            <h2>产品基本信息</h2>
+            <table class="info-table">
+                <tr><th>产品名称</th><td id="productName"></td></tr>
+                <tr><th>生产批次</th><td id="batchNo"></td></tr>
+                <tr><th>生产商</th><td id="producer"></td></tr>
+            </table>
+
+            <h2>全流程追溯</h2>
+            <div class="timeline">
+                <!-- 种植阶段 -->
+                <div class="timeline-item" data-stage="plant">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>种植阶段</h3>
+                        <p id="plantInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>农药使用记录</h4>
+                            <ul id="pesticideList"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 加工阶段 -->
+                <div class="timeline-item" data-stage="process">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>加工阶段</h3>
+                        <p id="processInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>检测报告</h4>
+                            <p id="testReport"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 运输阶段 -->
+                <div class="timeline-item" data-stage="transport">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>运输阶段</h3>
+                        <p id="transportInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>物流路径</h4>
+                            <div id="map"></div> <!-- 地图容器 -->
+                        </div>
+                    </div>
+                    <div id = "map"></div>
+                </div>
+
+                <!-- 销售阶段 -->
+                <div class="timeline-item" data-stage="sell">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>销售阶段</h3>
+                        <p id="sellInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>销售渠道</h4>
+                            <p id="salesChannel"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 引入qrcode.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@3.3.3/dist/qrcode.min.js"></script>
+    <script src="1.js"></script>
+
+
+    <!-- 引入高德API -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+          securityJsCode: "4c24578802e38ce441528d8f0095c31b",
+        };
+      </script>
+      <script src="https://webapi.amap.com/loader.js"></script>
+      <script type="text/javascript">
+        AMapLoader.load({
+          key: "c177e94e7e7f929aaff75794a272b052", //申请好的Web端开发者key，调用 load 时必填
+          version: "2.0", //指定要加载的 JS API 的版本，缺省时默认为 1.4.15
+        })
+          .then((AMap) => {
+            //JS API 加载完成后获取AMap对象
+            const map = new AMap.Map("container", {
+            viewMode: '2D', //默认使用 2D 模式
+            zoom: 11, //地图级别
+            center: [116.397428, 39.90923], //地图中心点
+            });
+            map = new AMap.Map("container", {
+                mapStyle: "amap://styles/fresh", //设置地图的显示样式
+            });
+
+          })
+          .catch((e) => {
+            console.error(e); //加载错误提示
+          });
+          
+
+      </script>
+      
+</body>
+</html>

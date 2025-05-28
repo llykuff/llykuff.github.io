@@ -1,0 +1,138 @@
+/* 全局样式 */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f7fa;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.qrcode-container {
+    margin: 20px 0;
+}
+
+.scan-input {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 表格样式 */
+.info-table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.info-table th,
+.info-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.info-table th {
+    background-color: #f8f9fa;
+    text-align: left;
+}
+
+/* 时间轴样式 */
+.timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #e0e0e0;
+    height: 100%;
+    left: 50%;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    padding: 20px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -13px;
+    background-color: #4CAF50;
+    border: 4px solid white;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+
+.timeline-item:nth-child(even)::after {
+    left: -13px;
+}
+
+.timeline-item .content {
+    padding: 20px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+}
+
+.expand-btn {
+    margin-top: 10px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.detail {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 600px) {
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    .timeline-item:nth-child(even) {
+        left: 0;
+    }
+}

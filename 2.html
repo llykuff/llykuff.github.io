@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农产品质量追溯系统</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .qrcode-container {
+            margin-top: 20px;
+        }
+        
+        .scan-input {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .scan-input input {
+            padding: 8px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        
+        .scan-input button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .scan-input button:hover {
+            background-color: #45a049;
+        }
+        
+        .trace-info {
+            margin-top: 30px;
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        .info-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 29px;
+            width: 2px;
+            background-color: #ddd;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 80px;
+        }
+        
+        .circle {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            z-index: 1;
+        }
+        
+        .content {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .expand-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .expand-btn:hover {
+            background-color: #e6e6e6;
+        }
+        
+        .detail {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        #map {
+            height: 300px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>农产品质量追溯平台</h1>
+        <div class="qrcode-container" id="qrcode"></div>
+    </header>
+
+    <main class="main-content">
+        <!-- 扫码输入框（用于模拟扫码） -->
+        <div class="scan-input">
+            <input type="text" id="productId" placeholder="请扫描二维码或输入追溯码">
+            <button onclick="searchProduct()">查询</button>
+        </div>
+
+        <!-- 追溯信息展示 -->
+        <div class="trace-info" id="traceInfo" style="display: none;">
+            <h2>产品基本信息</h2>
+            <table class="info-table">
+                <tr><th>产品名称</th><td id="productName"></td></tr>
+                <tr><th>生产批次</th><td id="batchNo"></td></tr>
+                <tr><th>生产商</th><td id="producer"></td></tr>
+            </table>
+
+            <h2>全流程追溯</h2>
+            <div class="timeline">
+                <!-- 种植阶段 -->
+                <div class="timeline-item" data-stage="plant">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>种植阶段</h3>
+                        <p id="plantInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>农药使用记录</h4>
+                            <ul id="pesticideList"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 加工阶段 -->
+                <div class="timeline-item" data-stage="process">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>加工阶段</h3>
+                        <p id="processInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>检测报告</h4>
+                            <p id="testReport"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 运输阶段 -->
+                <div class="timeline-item" data-stage="transport">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>运输阶段</h3>
+                        <p id="transportInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>物流路径</h4>
+                            <div id="map"></div> <!-- 地图容器 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 销售阶段 -->
+                <div class="timeline-item" data-stage="sell">
+                    <div class="circle"></div>
+                    <div class="content">
+                        <h3>销售阶段</h3>
+                        <p id="sellInfo"></p>
+                        <button class="expand-btn" onclick="toggleDetails(this)">查看详情</button>
+                        <div class="detail" style="display: none;">
+                            <h4>销售渠道</h4>
+                            <p id="salesChannel"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 引入qrcode.js库 -->
+    <script src="./qrcode.min.js"></script>
+    
+    <script>
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 生成一个示例二维码
+            new QRCode(document.getElementById("qrcode"), {
+                text: "http://127.0.0.1:5500/project/2.html",
+                width: 128,
+                height: 128
+            });
+        });
+
+        // 切换详情显示状态
+        function toggleDetails(button) {
+            const detailDiv = button.nextElementSibling;
+            if (detailDiv.style.display === "none") {
+                detailDiv.style.display = "block";
+                button.textContent = "收起详情";
+                
+                // 如果是地图详情，且地图还未初始化，则初始化地图
+                if (detailDiv.id === "map" && !detailDiv.querySelector('.amap-container')) {
+                    initMap();
+                }
+            } else {
+                detailDiv.style.display = "none";
+                button.textContent = "查看详情";
+            }
+        }
+
+        // 模拟查询产品信息
+        function searchProduct() {
+            const productId = document.getElementById('productId').value;
+            if (!productId) {
+                alert('请输入追溯码');
+                return;
+            }
+            
+            // 模拟从服务器获取数据
+            const productData = getMockProductData(productId);
+            
+            if (productData) {
+                // 填充产品信息
+                document.getElementById('productName').textContent = productData.name;
+                document.getElementById('batchNo').textContent = productData.batchNo;
+                document.getElementById('producer').textContent = productData.producer;
+                
+                // 填充各阶段信息
+                document.getElementById('plantInfo').textContent = productData.plantInfo;
+                document.getElementById('processInfo').textContent = productData.processInfo;
+                document.getElementById('transportInfo').textContent = productData.transportInfo;
+                document.getElementById('sellInfo').textContent = productData.sellInfo;
+                
+                // 填充详细信息
+                const pesticideList = document.getElementById('pesticideList');
+                pesticideList.innerHTML = '';
+                productData.pesticideRecords.forEach(record => {
+                    const li = document.createElement('li');
+                    li.textContent = `${record.date}: ${record.name} (${record.dosage})`;
+                    pesticideList.appendChild(li);
+                });
+                
+                document.getElementById('testReport').textContent = productData.testReport;
+                document.getElementById('salesChannel').textContent = productData.salesChannel;
+                
+                // 显示追溯信息
+                document.getElementById('traceInfo').style.display = 'block';
+                
+                // 滚动到追溯信息区域
+                document.getElementById('traceInfo').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('未找到该产品的追溯信息');
+            }
+        }
+
+        // 获取模拟产品数据
+        function getMockProductData(productId) {
+            // 实际应用中应该从服务器获取数据
+            return {
+                name: "有机绿色蔬菜",
+                batchNo: "20230501001",
+                producer: "绿色农业科技有限公司",
+                plantInfo: "种植于2023年3月15日，采用有机种植方式，全程不使用化学肥料和农药。",
+                processInfo: "2023年5月1日进行采摘、清洗和包装，经过严格的质量检测。",
+                transportInfo: "2023年5月2日由冷链车运输，全程温度控制在2-8℃，预计5月3日到达销售点。",
+                sellInfo: "2023年5月3日上架销售，保质期7天，请在保质期内食用。",
+                pesticideList: ["无"],
+                pesticideRecords: [
+                    { date: "2023年3月20日", name: "生物防治剂", dosage: "按照说明使用" },
+                    { date: "2023年4月5日", name: "生物防治剂", dosage: "按照说明使用" }
+                ],
+                testReport: "经检测，该批次产品符合国家食品安全标准，农药残留未检出，重金属含量符合国家标准。",
+                salesChannel: "阳光超市各门店、绿色农产品网店"
+            };
+            return{
+                name: "有机红颜草莓",
+            batchNo: "20230415002",
+    producer: "四季果香种植合作社",
+    plantInfo: "种植于2022年11月20日，采用有机基质栽培，全程使用生物肥料和物理防虫技术。",
+    processInfo: "2023年4月15日人工采摘，当天完成分拣、包装，采用气调保鲜技术。",
+    transportInfo: "2023年4月16日采用冷藏车运输，温度控制在0-5℃，48小时内送达销售点。",
+    sellInfo: "2023年4月17日上架销售，建议冷藏保存，保质期3天。",
+    pesticideList: ["无"],
+    pesticideRecords: [
+        { date: "2022年12月10日", name: "苦参碱", dosage: "1000倍液" },
+        { date: "2023年1月15日", name: "糖醋液诱捕", dosage: "每亩悬挂20个诱捕器" }
+    ],
+    testReport: "经检测，该批次产品符合GB/T 19630有机产品标准，糖度≥12°Bx，无农药残留。",
+    salesChannel: "城市生鲜电商平台、高端超市精品区"
+}
+            }
+        
+
+        // 初始化地图
+        function initMap() {
+            // 确保高德地图API已加载
+            if (typeof AMap !== 'undefined') {
+                // 创建地图实例
+                const map = new AMap.Map('map', {
+                    viewMode: '2D',
+                    zoom: 10,
+                    center: [116.397428, 39.90923] // 初始中心点，北京
+                });
+                
+                // 设置地图样式
+                map.setMapStyle('amap://styles/fresh');
+                
+                // 添加起点标记
+                const startMarker = new AMap.Marker({
+                    position: [113.405467, 39.907761], // 北京
+                    title: '生产基地',
+                    icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'
+                });
+                startMarker.setMap(map);
+                
+                // 添加终点标记
+                const endMarker = new AMap.Marker({
+                    position: [116.481499, 39.990475], // 北京
+                    title: '销售点',
+                    icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'
+                });
+                endMarker.setMap(map);
+                
+                // 添加路线
+                const path = [
+                    [113.405467, 39.907761], // 起点
+                    [116.415467, 39.917761],
+                    [116.425467, 39.927761],
+                    [116.435467, 39.937761],
+                    [116.445467, 39.947761],
+                    [116.455467, 39.957761],
+                    [116.465467, 39.967761],
+                    [116.475467, 39.977761],
+                    [116.481499, 39.990475]  // 终点
+                ];
+                
+                const polyline = new AMap.Polyline({
+                    path: path,
+                    strokeColor: "#FF33FF",
+                    strokeWeight: 5,
+                    strokeOpacity: 1,
+                    lineJoin: 'round',
+                    lineCap: 'round',
+                    zIndex: 50
+                });
+                polyline.setMap(map);
+                
+                // 调整地图视野以显示所有标记
+                map.setFitView();
+            } else {
+                console.error('高德地图API未加载');
+            }
+        }
+    </script>
+
+    <!-- 引入高德API -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+          securityJsCode: "4c24578802e38ce441528d8f0095c31b",
+        };
+      </script>
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <script type="text/javascript">
+        // 加载高德地图API
+        AMapLoader.load({
+            key: "c177e94e7e7f929aaff75794a272b052",
+            version: "2.0",
+            plugins: []
+        }).then(() => {
+            console.log('高德地图API加载成功');
+            initMap();
+        }).catch(e => {
+            console.error('高德地图API加载失败', e);
+        });
+    </script>
+</body>
+</html>
