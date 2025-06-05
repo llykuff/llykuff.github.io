@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>有机樱桃全产业链溯源平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  
+  <!-- Tailwind 配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#D22B2B', // 樱桃红
+            secondary: '#8BC34A', // 绿叶绿
+            neutral: '#F9F5F0', // 米白色
+            dark: '#2D3748', // 深灰
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .timeline-line {
+        @apply absolute left-5 top-6 h-full w-0.5 bg-secondary/30;
+      }
+      .timeline-dot {
+        @apply absolute left-3 top-6 h-5 w-5 rounded-full bg-secondary border-2 border-white;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-neutral text-dark">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-2">
+        <i class="fa-solid fa-seedling text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-primary">樱缘可溯</span>
+      </a>
+      
+      <!-- 桌面导航 -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#home" class="text-dark hover:text-primary transition-colors font-medium">首页</a>
+        <a href="#planting" class="text-dark hover:text-primary transition-colors font-medium">种植环节</a>
+        <a href="#processing" class="text-dark hover:text-primary transition-colors font-medium">加工环节</a>
+        <a href="#transport" class="text-dark hover:text-primary transition-colors font-medium">运输环节</a>
+        <a href="#sales" class="text-dark hover:text-primary transition-colors font-medium">销售环节</a>
+        <a href="#trace" class="text-dark hover:text-primary transition-colors font-medium">产品溯源</a>
+      </nav>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-dark hover:text-primary focus:outline-none">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+        <a href="#home" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">首页</a>
+        <a href="#planting" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">种植环节</a>
+        <a href="#processing" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">加工环节</a>
+        <a href="#transport" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">运输环节</a>
+        <a href="#sales" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">销售环节</a>
+        <a href="#trace" class="text-dark hover:text-primary transition-colors py-2">产品溯源</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 首页/英雄区 -->
+  <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-primary/5 to-neutral">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+          <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-dark mb-4">
+            有机樱桃<span class="text-primary">全产业链</span><br>透明化追溯平台
+          </h1>
+          <p class="text-lg text-gray-600 mb-8 max-w-lg">
+            从果园到餐盘，全程透明化溯源，每一颗樱桃都拥有专属的‘成长档案’，让您吃得放心，品味自然鲜甜。
+          </p>
+          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#trace" class="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+              <i class="fa-solid fa-search mr-2"></i>立即溯源
+            </a>
+            <a href="#process" class="px-8 py-3 bg-white hover:bg-gray-50 text-primary border border-primary font-medium rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 text-center">
+              <i class="fa-solid fa-info-circle mr-2"></i>了解流程
+            </a>
+          </div>
+        </div>
+        <div class="md:w-1/2 relative">
+          <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <img src="images/有机樱桃.jpg" alt="有机樱桃" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+              <div class="p-6">
+                <span class="bg-primary/90 text-white text-sm font-medium px-3 py-1 rounded-full">新鲜直达</span>
+                <h3 class="text-white text-xl font-bold mt-2">每一颗都来自生态农场</h3>
+              </div>
+            </div>
+          </div>
+          <!-- 装饰元素 -->
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 全链流程概览 -->
+  <section id="process" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          全程透明化管理
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">从种植到销售的<span class="text-primary">全链条</span>管控</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">我们严格把控每一个环节，确保您品尝到的每一颗樱桃都是安全、新鲜、美味的。</p>
+      </div>
+      
+      <!-- 流程时间线 -->
+      <div class="relative">
+        <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-secondary/30 transform -translate-x-1/2"></div>
+        
+        <!-- 流程步骤 -->
+        <div class="space-y-16 relative">
+          <!-- 步骤1：种植 -->
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  3-5月
+                </span>
+                <h3 class="text-xl font-bold mb-3">有机培育</h3>
+                <p class="text-gray-600">采用有机种植技术，杜绝化学农药与合成肥料，遵循自然规律，让樱桃在阳光雨露的滋养下缓慢成熟，锁住天然果香与甘甜。</p>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-leaf text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/樱桃种植.jpg" alt="樱桃种植" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤2：加工 -->
+          <div class="flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 md:pl-12 md:text-left mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  6月
+                </span>
+                <h3 class="text-xl font-bold mb-3">精制处理</h3>
+                <p class="text-gray-600">从枝头采摘到加工车间，全程低温保鲜，通过多道严苛质检工序，在保留樱桃饱满果粒与丰富营养的同时，确保品质上乘。</p>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-industry text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pr-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/樱桃加工.jpg" alt="樱桃加工" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤3：运输 -->
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  7月
+                </span>
+                <h3 class="text-xl font-bold mb-3">冷链直达</h3>
+                <p class="text-gray-600">运用专业冷链运输体系，全程温度精准监控，每一颗樱桃都在稳定的低温环境中 “旅行”，最大程度维持新鲜状态。</p>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-truck-refrigerator text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/冷链运输.jpg" alt="樱桃运输" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤4：销售 -->
+          <div class="flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 md:pl-12 md:text-left mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  8-12月
+                </span>
+                <h3 class="text-xl font-bold mb-3">品质销售</h3>
+                <p class="text-gray-600">各销售门店执行严格品控标准，从仓储到上架层层把关，让消费者拿到手的每一颗樱桃，都新鲜多汁、安全放心。</p>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-store text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pr-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/樱桃销售.jpg" alt="樱桃销售" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 种植环节 -->
+  <section id="planting" class="py-16 bg-neutral">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          生态种植
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">有机种植<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">从源头开始，我们坚持有机种植理念，为您提供最纯净的樱桃。</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 基地环境 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 overflow-hidden">
+            <img src="images/种植基地.jpg" alt="种植基地" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
+              源头种植基地
+            </h3>
+            <p class="text-gray-600 mb-4">
+              我们的种植基地扎根于北纬 38° 黄金种植带，此处属富含有机质的沙壤土区域，土层深厚且透气性极佳，为樱桃根系深扎生长提供稳固基础。灌溉水源取自高山融雪，水质纯净无污染，富含多种矿物质。基地所在区域远离工业污染，常年空气洁净，年日照时长超 2600 小时，昼夜温差稳定保持在 12℃ - 15℃之间，极大促进樱桃糖分积累，孕育出风味浓郁的果实。
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">土壤PH值</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-2xl font-bold text-primary">6.75</span>
+                  <span class="text-sm text-gray-500 ml-1">±0.25</span>
+                </div>
+              </div>
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">年平均气温</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-2xl font-bold text-primary">11-13</span>
+                  <span class="text-sm text-gray-500 ml-1">℃</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 种植流程 -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+          <h3 class="text-xl font-bold mb-6 flex items-center">
+            <i class="fa-solid fa-calendar-alt text-primary mr-2"></i>
+            有机种植流程
+          </h3>
+          
+          <!-- 时间线 -->
+          <div class="space-y-6 relative">
+            <div class="timeline-line"></div>
+            
+            <!-- 时间点1 -->
+            <div class="relative pl-10">
+              <div class="timeline-dot"></div>
+              <div>
+                <span class="text-sm font-medium text-primary">3月</span>
+                <h4 class="font-bold mt-1">精选品种</h4>
+                <p class="text-gray-600 text-sm mt-1">
+                  选用 “美早”“布鲁克斯”“萨米脱” 等优质大樱桃品种，通过脱毒组培技术繁育种苗，严格检测病毒与病虫害，确保每一株幼苗品种纯正、根系健壮。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 时间点2 -->
+            <div class="relative pl-10">
+              <div class="timeline-dot"></div>
+              <div>
+                <span class="text-sm font-medium text-primary">4月</span>
+                <h4 class="font-bold mt-1">科学育苗</h4>
+                <p class="text-gray-600 text-sm mt-1">
+                  采用基质育苗技术，以草炭土、珍珠岩、蛭石按比例混合为栽培基质，精准调控温室内温度在 18-22℃，湿度 60%-70%，配合 LED 补光系统，培育出侧根发达、抗寒抗旱的优质壮苗。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 时间点3 -->
+            <div class="relative pl-10">
+              <div class="timeline-dot"></div>
+              <div>
+                <span class="text-sm font-medium text-primary">5-6月</span>
+                <h4 class="font-bold mt-1">精细管理</h4>
+                <p class="text-gray-600 text-sm mt-1">
+                  采用防鸟网覆盖果园，杜绝鸟类啄食；人工除草结合生草栽培，改善土壤结构；释放捕食螨、瓢虫等天敌生物防控虫害；花期放置蜜蜂箱，提升授粉效率，确保果实饱满均匀。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 时间点4 -->
+            <div class="relative pl-10">
+              <div class="timeline-dot"></div>
+              <div>
+                <span class="text-sm font-medium text-primary">6-7月</span>
+                <h4 class="font-bold mt-1">自然成熟</h4>
+                <p class="text-gray-600 text-sm mt-1">
+                  待樱桃果实糖度达到 18° 以上，果柄与果实自然分离时，采用 “带柄采摘” 方式手工采收，最大程度保留果实完整性与新鲜度，确保每一颗樱桃都拥有浓郁果香与脆甜口感。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 质检报告 -->
+      <div class="mt-12 bg-white rounded-2xl shadow-lg p-6 card-hover">
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <i class="fa-solid fa-certificate text-primary mr-2"></i>
+          严格质量检测
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-neutral rounded-xl p-5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fa-solid fa-leaf text-primary text-2xl"></i>
+            </div>
+            <h4 class="font-bold mb-2">权威有机认证</h4>
+            <p class="text-gray-600 text-sm">
+              荣获中国有机产品认证与美国 USDA 有机双认证，全程遵循国际有机农业规范，杜绝化学农药、化肥及转基因技术，从源头确保樱桃天然纯净，守护每一口健康。
+            </p>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fa-solid fa-flask text-primary text-2xl"></i>
+            </div>
+            <h4 class="font-bold mb-2">精密农残筛查</h4>
+            <p class="text-gray-600 text-sm">
+              每批次樱桃均历经 328 项农残指标深度检测，涵盖常见杀虫剂、杀菌剂及除草剂残留分析，所有样本检测结果均未检出农残成分，检测标准较国标要求更为严苛，远超行业平均水平。
+            </p>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fa-solid fa-shield-alt text-primary text-2xl"></i>
+            </div>
+            <h4 class="font-bold mb-2">安全保障</h4>
+            <p class="text-gray-600 text-sm">
+              采用高精度仪器对樱桃进行重金属专项检测，针对铅、汞、镉、砷等有害物质实施精准测定，实测数据均低于国标限量值 50% 以上，以实验室级标准为食品安全筑牢防线。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加工环节 -->
+  <section id="processing" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          精细加工
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">加工<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">从采摘到工艺处理，我们全程以匠人之心严守品质关卡，让每一颗樱桃都定格枝头的鲜活风味。</p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- 车间全景 -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+            <div class="h-80 relative">
+              <img src="images/加工车间.jpg" alt="加工车间" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <div class="p-6">
+                  <h3 class="text-white text-2xl font-bold mb-2">现代化无菌加工车间</h3>
+                  <p class="text-white/80">
+                    严格遵循 ISO 22000 食品安全管理体系，构建全流程可追溯的洁净生产环境，让每一颗樱桃都经历专业级 “品质守护”。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-neutral rounded-lg p-4 text-center">
+                  <i class="fa-solid fa-thermometer-half text-primary mb-2"></i>
+                  <h4 class="font-medium text-sm">恒温加工环境</h4>
+                  <p class="text-primary font-bold mt-1">8℃以下低温空间</p>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 text-center">
+                  <i class="fa-solid fa-robot text-primary mb-2"></i>
+                  <h4 class="font-medium text-sm">智能设备矩阵</h4>
+                  <p class="text-primary font-bold mt-1">28台全自动数控加工设备</p>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 text-center">
+                  <i class="fa-solid fa-users text-primary mb-2"></i>
+                  <h4 class="font-medium text-sm">专业品控团队</h4>
+                  <p class="text-primary font-bold mt-1">40+资深技术人员</p>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 text-center">
+                  <i class="fa-solid fa-tint text-primary mb-2"></i>
+                  <h4 class="font-medium text-sm">纯化水源系统</h4>
+                  <p class="text-primary font-bold mt-1">UF 超滤 + EDI 电去离子技术</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 工艺流程 -->
+        <div>
+          <div class="bg-white rounded-2xl shadow-lg p-6 h-full card-hover">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fa-solid fa-cogs text-primary mr-2"></i>
+              精细加工流程
+            </h3>
+            <div class="space-y-4">
+              <div class="flex">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 flex-shrink-0">
+                  1
+                </div>
+                <div>
+                  <h4 class="font-bold">瞬冷锁鲜</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    采摘后 1.5 小时内转运至预冷设备，通过差压预冷技术，将樱桃温度在 30 分钟内降至 2-6℃，抑制呼吸作用，锁住果实鲜嫩质地。
+                  </p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 flex-shrink-0">
+                  2
+                </div>
+                <div>
+                  <h4 class="font-bold">气泡清洗</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    采用食品级弱酸性电解水配合气泡翻滚清洗工艺，在温和水流与气泡冲击下，高效去除果面农残与杂质，同时保持樱桃表皮完整不受损。。
+                  </p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 flex-shrink-0">
+                  3
+                </div>
+                <div>
+                  <h4 class="font-bold">智能分选</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    运用机器视觉与红外检测系统，结合人工二次复检，从色泽、糖度、果径、瑕疵等多维度进行 4 级筛选，确保每颗樱桃品质上乘。
+                  </p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 flex-shrink-0">
+                  4
+                </div>
+                <div>
+                  <h4 class="font-bold">深冷急冻</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    运用 - 40℃超低温速冻技术，使樱桃在 20 分钟内通过最大冰晶生成带，形成微小均匀冰晶，最大程度保留果实营养与脆爽口感。
+                  </p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-3 flex-shrink-0">
+                  5
+                </div>
+                <div>
+                  <h4 class="font-bold">真空充氮封装</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    选用高阻隔性食品包装材质，采用真空预抽 + 氮气置换双重保鲜工艺，排除袋内氧气与湿气，实现长效保鲜与品质守护。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 技术对比 -->
+      <div class="mt-12 bg-white rounded-2xl shadow-lg p-6 card-hover">
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <i class="fa-solid fa-chart-bar text-primary mr-2"></i>
+          技术优势对比
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 bg-neutral text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  技术指标
+                </th>
+                <th class="px-6 py-3 bg-neutral text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  我们的速冻技术
+                </th>
+                <th class="px-6 py-3 bg-neutral text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  传统冷冻技术
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  冻结时间
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  20分钟内完成冻结
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  5-7小时完成冻结
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  冰晶大小
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  平均粒径 8 微米，细胞完整率超 92%
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  冰晶直径 60-120 微米，细胞破损严重
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  营养保留率
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  维生素 C 等营养成分保留 96%
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  仅保留 65-75% 营养物质
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  解冻后汁液流失
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  小于4%
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  18-25%
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  口感还原度
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  保留 97%，口感清甜如初
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  仅75-85%，口感绵软，甜度与脆度明显下降
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 运输环节 -->
+  <section id="transport" class="py-16 bg-neutral">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+            全程冷链
+          </span>
+          <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">运输<span class="text-primary">环节</span></h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">我们建立了完善的冷链物流体系，确保樱桃在运输过程中始终保持新鲜状态。</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- 物流网络 -->
+          <div class="lg:col-span-2">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover h-full">
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-6 flex items-center">
+                  <i class="fa-solid fa-map text-primary mr-2"></i>
+                  全国冷链物流网络
+                </h3>
+                <div class="h-[400px] bg-neutral rounded-xl relative overflow-hidden" id="map-container">
+                  <!-- 腾讯地图容器 -->
+                </div>
+                
+                <!-- 物流节点数据（真实城市坐标） -->
+                <input type="hidden" id="logistics-nodes" value='[
+                  {"lat": 30.2741, "lng": 120.1551, "type": "primary", "label": "杭州冷链枢纽"},
+                  {"lat": 39.9042, "lng": 116.4074, "type": "primary", "label": "北京冷链中心"},
+                  {"lat": 23.1291, "lng": 113.2644, "type": "primary", "label": "广州分拨中心"},
+                  {"lat": 31.2304, "lng": 121.4737, "type": "primary", "label": "上海配送中心"},
+                  {"lat": 22.5431, "lng": 114.0579, "type": "secondary", "label": "深圳前置仓"},
+                  {"lat": 38.0376, "lng": 114.5149, "type": "secondary", "label": "石家庄冷链站"},
+                  {"lat": 30.5728, "lng": 104.0668, "type": "secondary", "label": "成都配送站"}
+                ]'>
+              </div>
+            </div>
+          </div>
+  
+          <!-- 腾讯地图 API 调用脚本 -->
+          <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=HAEBZ-ODTOQ-QKM5R-4NJJH-7GUPH-YZFYM&libraries=marker,infowindow,polyline"></script>
+          <script>
+            // 初始化地图
+            function initMap() {
+              const map = new qq.maps.Map(document.getElementById('map-container'), {
+                center: new qq.maps.LatLng(35.8617, 104.1954), // 中国地理中心
+                zoom: 4,
+                zoomControl: true,
+                mapTypeControl: true,
+                scaleControl: true,
+                streetViewControl: false
+              });
+  
+              // 加载物流节点
+              const nodes = JSON.parse(document.getElementById('logistics-nodes').value);
+              const markers = [];
+              
+              nodes.forEach(node => {
+                const marker = new qq.maps.Marker({
+                  position: new qq.maps.LatLng(node.lat, node.lng),
+                  map: map,
+                  icon: getMarkerIcon(node.type)
+                });
+                
+                // 添加动画效果
+                animateMarker(marker);
+                
+                // 添加信息窗口
+                const infoWindow = new qq.maps.InfoWindow({
+                  content: `
+                    <div class="map-info">
+                      <div class="font-bold text-dark">${node.label}</div>
+                      <div class="text-xs text-gray-500 mt-1">冷链等级：${node.type === 'primary' ? '一级枢纽' : '区域站点'}</div>
+                      <div class="text-xs text-gray-500">当前运力：${Math.floor(Math.random() * 80 + 20)}%</div>
+                    </div>
+                  `,
+                  width: 160
+                });
+                
+                qq.maps.event.addListener(marker, 'click', () => {
+                  infoWindow.open(map, marker);
+                });
+                
+                markers.push(marker);
+              });
+              
+              // 绘制物流路线
+              drawLogisticsRoutes(map, nodes);
+              
+              // 添加中心悬浮卡片
+              addCentralInfoCard(map);
+            }
+  
+            // 自定义标注图标
+            function getMarkerIcon(type) {
+              return type === 'primary' ? 
+                new qq.maps.MarkerImage(
+                  'https://map.qq.com/api/i/markers/dark_red.png',
+                  new qq.maps.Size(28, 28),
+                  new qq.maps.Point(0, 0),
+                  new qq.maps.Point(14, 28)
+                ) : 
+                new qq.maps.MarkerImage(
+                  'https://map.qq.com/api/i/markers/blue.png',
+                  new qq.maps.Size(24, 24),
+                  new qq.maps.Point(0, 0),
+                  new qq.maps.Point(12, 24)
+                );
+            }
+            
+            // 标记点动画效果
+            function animateMarker(marker) {
+              let bounceCount = 0;
+              const maxBounces = 2;
+              const bounceInterval = setInterval(() => {
+                if (bounceCount >= maxBounces) {
+                  clearInterval(bounceInterval);
+                  return;
+                }
+                
+                marker.setTop(true);
+                setTimeout(() => marker.setTop(false), 300);
+                bounceCount++;
+              }, 1000);
+            }
+            
+            // 绘制物流路线
+            function drawLogisticsRoutes(map, nodes) {
+              // 筛选主要节点作为路线端点
+              const mainNodes = nodes.filter(node => node.type === 'primary');
+              
+              // 连接主要节点形成路线
+              for (let i = 0; i < mainNodes.length - 1; i++) {
+                const start = mainNodes[i];
+                const end = mainNodes[i + 1];
+                
+                const path = [
+                  new qq.maps.LatLng(start.lat, start.lng),
+                  new qq.maps.LatLng(end.lat, end.lng)
+                ];
+                
+                const polyline = new qq.maps.Polyline({
+                  path: path,
+                  strokeColor: '#4D8BFF',
+                  strokeWeight: 2,
+                  strokeOpacity: 0.6,
+                  strokeStyle: 'solid',
+                  map: map
+                });
+                
+                // 添加箭头标记
+                addRouteArrow(map, path);
+              }
+            }
+            
+            // 添加路线箭头
+            function addRouteArrow(map, path) {
+              const midPoint = path[Math.floor(path.length / 2)];
+              const marker = new qq.maps.Marker({
+                position: midPoint,
+                map: map,
+                icon: {
+                  path: qq.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                  scale: 2,
+                  fillColor: '#4D8BFF',
+                  fillOpacity: 0.8,
+                  strokeColor: '#4D8BFF',
+                  strokeWeight: 1
+                },
+                rotation: getBearing(path[0], path[1])
+              });
+            }
+            
+            // 计算两点之间的方位角
+            function getBearing(p1, p2) {
+              const lat1 = p1.getLat() * Math.PI / 180;
+              const lat2 = p2.getLat() * Math.PI / 180;
+              const dLon = (p2.getLng() - p1.getLng()) * Math.PI / 180;
+              
+              const y = Math.sin(dLon) * Math.cos(lat2);
+              const x = Math.cos(lat1) * Math.sin(lat2) - 
+                        Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+              
+              let brng = Math.atan2(y, x) * 180 / Math.PI;
+              return (brng + 360) % 360;
+            }
+            
+            // 添加中心悬浮卡片
+            function addCentralInfoCard(map) {
+              const infoDiv = document.createElement('div');
+              infoDiv.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-xl z-10 text-center';
+              infoDiv.innerHTML = `
+                <div class="animate-pulse w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <i class="fa-solid fa-truck text-primary text-lg"></i>
+                </div>
+                <h4 class="font-bold text-dark text-sm">实时物流追踪系统</h4>
+                <p class="text-gray-600 text-xs mt-1">
+                  通过GPS定位系统，全程监控运输路径和状态
+                </p>
+              `;
+              
+              document.getElementById('map-container').appendChild(infoDiv);
+            }
+  
+            // 初始化地图
+            window.onload = initMap;
+          </script>
+        </div>
+      </div>
+  </section>
+        
+        <!-- 冷链标准 -->
+        <div>
+          <div class="bg-white rounded-2xl shadow-lg p-6 h-full card-hover">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fa-solid fa-thermometer-half text-primary mr-2"></i>
+              全程冷链标准
+            </h3>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-warehouse text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">仓储环节</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    温度控制：1-3℃恒温冷藏库存储，通过智能温控系统实时调节，避免温度波动。​
+                    湿度管理：相对湿度维持在 85-90%，采用超声波加湿技术，防止果实脱水皱缩。​
+                    环境保障：每日两次臭氧 + 紫外线双重消毒，配合空气净化系统，抑制霉菌滋生。
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-truck text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">运输环节</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    专业运载：冷藏车配置双制冷机组，温度精准控制在 0-2℃，配备独立温感探头，每 10 分钟自动记录数据。​
+                    全程监控：GPS 定位与温湿度云平台联动，异常波动触发即时预警，确保运输温差≤±0.5℃。​
+                    缓冲防护：采用吸能减震托盘与透气保温箱，减少颠簸碰撞对果实的损伤。
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-store text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">销售环节</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    终端保鲜：冷藏展示柜采用变频风冷技术，温度恒定在 1-4℃，风速控制在 0.2m/s 以下，避免风干。​
+                    动态管理：每日 3 次人工巡检展示柜温湿度，优先陈列先进库产品，缩短终端停留时间。
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-clock text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">时效保障</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    从采摘至消费者签收，全程不超过 36 小时，依托航空冷链与同城冷链无缝衔接，最大程度保留樱桃的脆嫩口感与营养成分。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      运输监控
+      <div class="mt-12 bg-white rounded-2xl shadow-lg p-6 card-hover">
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <i class="fa-solid fa-eye text-primary mr-2"></i>
+          实时运输监控
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-neutral rounded-xl p-5">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold">车厢温度</h4>
+              <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">正常</span>
+            </div>
+            <div class="relative h-40">
+              <!-- 温度图表占位 -->
+              <img src="images/车厢温度.jpg" alt="温度监控图表" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+              <div>
+                <span class="text-sm text-gray-500">当前温度</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-2xl font-bold text-primary">1.2</span>
+                  <span class="text-sm text-gray-500 ml-1">℃</span>
+                </div>
+              </div>
+              <div>
+                <span class="text-sm text-gray-500">波动范围</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-lg font-bold text-primary">±0.5</span>
+                  <span class="text-sm text-gray-500 ml-1">℃</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-5">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold">车辆位置</h4>
+              <span class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">运输中</span>
+            </div>
+            <div class="relative h-40">
+              <!-- 位置地图占位 -->
+              <img src="images/车辆位置.jpg" alt="位置监控地图" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+              <div>
+                <span class="text-sm text-gray-500">当前位置</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-lg font-bold text-primary">G360高速</span>
+                </div>
+              </div>
+              <div>
+                <span class="text-sm text-gray-500">预计到达</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-lg font-bold text-primary">1小时</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-5">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold">湿度监控</h4>
+              <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">正常</span>
+            </div>
+            <div class="relative h-40">
+              <!-- 湿度图表占位 -->
+              <img src="images/车厢湿度.jpg" alt="湿度监控图表" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+              <div>
+                <span class="text-sm text-gray-500">当前湿度</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-2xl font-bold text-primary">92</span>
+                  <span class="text-sm text-gray-500 ml-1">%</span>
+                </div>
+              </div>
+              <div>
+                <span class="text-sm text-gray-500">波动范围</span>
+                <div class="flex items-end mt-1">
+                  <span class="text-lg font-bold text-primary">±4</span>
+                  <span class="text-sm text-gray-500 ml-1">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 销售环节 -->
+  <section id="sales" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          新鲜直达
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">销售<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">我们通过多种渠道将新鲜樱桃送到您的手中，每一颗都经过严格筛选，确保品质如一。</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 销售渠道1 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/精品超市.png" alt="精品超市" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">精品超市</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              我们的产品已进驻全国 300 + 高端精品超市，配备专业冷藏陈列区，全方位保障樱桃的新鲜口感与卓越品质，让消费者畅享顶级鲜果体验。
+            </p>
+            <div class="flex items-center">
+              <span class="text-xs text-gray-500">合作品牌：</span>
+              <div class="flex ml-2">
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs">OLE</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">BHG</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">City</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 销售渠道2 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/生鲜电商.png" alt="生鲜电商" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">生鲜电商</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              携手国内头部生鲜电商平台，打造高效配送体系，提供当日达、次日达服务，让新鲜樱桃极速直达您家。
+            </p>
+            <div class="flex items-center">
+              <span class="text-xs text-gray-500">合作平台：</span>
+              <div class="flex ml-2">
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs">盒马</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">美团</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">京东</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 销售渠道3 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/社区团购.png" alt="社区团购" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">社区团购</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              借助社区团购的便捷模式，为社区居民带来高性价比的精选樱桃，新鲜直送社区自提点，轻松开启品质生活。
+            </p>
+            <div class="flex items-center">
+              <span class="text-xs text-gray-500">合作平台：</span>
+              <div class="flex ml-2">
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs">多多</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">美团</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">兴盛</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 销售渠道4 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/品牌门店.png" alt="品牌门店" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">品牌门店</h3>
+            <p class="text-gray-600 text-sm mb-4">
+              我们于全国核心城市精心布局 60 + 家品牌专卖店，不仅提供臻品樱桃，更有丰富多样的樱桃衍生产品，邀您一同领略新鲜生活新方式。
+            </p>
+            <div class="flex items-center">
+              <span class="text-xs text-gray-500">覆盖城市：</span>
+              <div class="flex ml-2">
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs">北京</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">上海</span>
+                <span class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs ml-1">广州</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 消费者评价 -->
+      <div class="mt-12 bg-white rounded-2xl shadow-lg p-6 card-hover">
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <i class="fa-solid fa-comments text-primary mr-2"></i>
+          消费者评价
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-neutral rounded-xl p-6">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/1001/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover">
+              <div class="ml-4">
+                <h4 class="font-bold">陈先生</h4>
+                <div class="flex text-yellow-400 text-sm">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm">
+              “第一次买这个品牌的樱桃，简直惊艳！果肉脆嫩多汁，酸甜度恰到好处，咬开还能闻到清新的果香。冷藏陈列区的保鲜做得很专业，樱桃颗颗饱满新鲜，包装也很有质感，送礼体面又上档次！”
+            </p>
+            <div class="mt-4 text-xs text-gray-500">
+              购买渠道：精品超市
+            </div>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-6">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/1002/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover">
+              <div class="ml-4">
+                <h4 class="font-bold">周女士</h4>
+                <div class="flex text-yellow-400 text-sm">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm">
+              “在生鲜电商平台下单的樱桃，没想到这么快就收到了！泡沫箱 + 冰袋的双重包装，拆开后樱桃完好无损，跟刚摘的一样新鲜。家里孩子每天吵着要吃，酸甜口味很开胃，已经回购第三箱了！”
+            </p>
+            <div class="mt-4 text-xs text-gray-500">
+              购买渠道：生鲜电商
+            </div>
+          </div>
+          
+          <div class="bg-neutral rounded-xl p-6">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/1003/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover">
+              <div class="ml-4">
+                <h4 class="font-bold">赵先生</h4>
+                <div class="flex text-yellow-400 text-sm">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm">
+              “参加社区团购活动买的樱桃，性价比真的绝！价格比超市便宜近一半，送来的樱桃却特别新鲜，个头均匀饱满，甜度也高，家里老人都说比市场买的好吃。已经推荐给小区邻居们了！”
+            </p>
+            <div class="mt-4 text-xs text-gray-500">
+              购买渠道：社区团购
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 产品溯源 -->
+  <section id="trace" class="py-16 bg-gradient-to-b from-primary/5 to-neutral">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          一键溯源
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">产品<span class="text-primary">溯源</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">输入产品追溯码，即可查看每一颗樱桃的完整生长历程和质量检测报告。</p>
+      </div>
+      
+      <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8 card-hover">
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa-solid fa-search text-primary text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">产品溯源查询</h3>
+          <p class="text-gray-600 text-sm">
+            请输入产品包装上的16位追溯码，或扫描二维码进行查询
+          </p>
+        </div>
+        
+        <form class="space-y-6">
+          <div>
+            <label for="trace-code" class="block text-sm font-medium text-gray-700 mb-1">
+              追溯码
+            </label>
+            <div class="flex">
+              <input type="text" id="trace-code" class="flex-1 block w-full px-4 py-3 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入16位追溯码">
+              <button type="button" class="bg-gray-100 hover:bg-gray-200 px-4 py-3 rounded-r-lg border border-l-0 border-gray-300 transition-colors">
+                <i class="fa-solid fa-qrcode"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <button type="button" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+              <i class="fa-solid fa-search mr-2"></i>立即查询
+            </button>
+          </div>
+        </form>
+        
+        <!-- 溯源结果示例 -->
+        <div class="mt-8 pt-8 border-t border-gray-100">
+          <div class="bg-neutral rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-bold">追溯结果示例</h4>
+              <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">验证通过</span>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">产品名称：</div>
+                <div class="text-sm">有机美早樱桃</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">批次号：</div>
+                <div class="text-sm">YC20250510106</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">种植基地：</div>
+                <div class="text-sm">青岛崂山有机种植基地</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">采摘日期：</div>
+                <div class="text-sm">2025年5月10日</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">加工日期：</div>
+                <div class="text-sm">2025年5月11日</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">保质期：</div>
+                <div class="text-sm">2025年5月22日至2025年6月7日</div>
+              </div>
+              <div class="flex">
+                <div class="w-32 text-sm font-medium text-gray-500">检测报告：</div>
+                <div class="text-sm">
+                  <a href="#" class="text-primary hover:underline">查看完整报告</a>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-4 flex justify-center">
+              <img src="images/樱桃溯源.png" alt="溯源产品图片" class="rounded-lg shadow-md">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          联系我们
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">了解更多<span class="text-primary">产品信息</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">如有任何疑问或建议，请随时联系我们，我们将竭诚为您服务。</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <div class="bg-neutral rounded-2xl shadow-lg p-8 h-full card-hover">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fa-solid fa-envelope text-primary mr-2"></i>
+              联系方式
+            </h3>
+            
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-phone text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">客服热线</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    400-888-8888<br>
+                    周一至周日 9:00-21:00
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-envelope text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">邮箱</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    service@yingyuankesu.com
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-map-marker-alt text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">总部地址</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                   上海市浦东区上海路66号<br>
+                    有机大厦20层
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                  <i class="fa-solid fa-weixin text-primary"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">官方微信</h4>
+                  <p class="text-gray-600 text-sm mt-1">
+                    扫描下方二维码关注公众号<br>
+                    获取更多产品信息
+                  </p>
+                  <div class="mt-2 w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-qrcode text-4xl text-gray-400"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="bg-neutral rounded-2xl shadow-lg p-8 h-full card-hover">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fa-solid fa-comment text-primary mr-2"></i>
+              留言咨询
+            </h3>
+            
+            <form class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                    姓名
+                  </label>
+                  <input type="text" id="name" class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入您的姓名">
+                </div>
+                <div>
+                  <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                    电话
+                  </label>
+                  <input type="tel" id="phone" class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入您的电话">
+                </div>
+              </div>
+              
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                  邮箱
+                </label>
+                <input type="email" id="email" class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入您的邮箱">
+              </div>
+              
+              <div>
+                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">
+                  留言内容
+                </label>
+                <textarea id="message" rows="4" class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="请输入您的留言内容"></textarea>
+              </div>
+              
+              <div>
+                <button type="button" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                  <i class="fa-solid fa-paper-plane mr-2"></i>提交留言
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <i class="fa-solid fa-seedling text-primary text-2xl"></i>
+            <span class="text-xl font-bold">樱缘可溯</span>
+          </div></div>
+          <p class="text-gray-400 mb-6">
+            我们致力于为消费者提供最优质的有机樱桃，从种植到销售全程透明化管理，让每一颗樱桃都可追溯。
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-weibo"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-weixin"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-6">快速链接</h4>
+          <ul class="space-y-3">
+            <li><a href="#home" class="text-gray-400 hover:text-primary transition-colors">首页</a></li>
+            <li><a href="#planting" class="text-gray-400 hover:text-primary transition-colors">种植环节</a></li>
+            <li><a href="#processing" class="text-gray-400 hover:text-primary transition-colors">加工环节</a></li>
+            <li><a href="#transport" class="text-gray-400 hover:text-primary transition-colors">运输环节</a></li>
+            <li><a href="#sales" class="text-gray-400 hover:text-primary transition-colors">销售环节</a></li>
+            <li><a href="#trace" class="text-gray-400 hover:text-primary transition-colors">产品溯源</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-6">联系我们</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fa-solid fa-phone text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">466-888-8888</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-envelope text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">service@yingyuankesu.com</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-map-marker-alt text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">上海市浦东区上海路66号</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-clock text-primary mt-1 mr-3"></i>
+              <span class="text-gray-400">周一至周日 9:00-21:00</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-bold mb-6">订阅通讯</h4>
+          <p class="text-gray-400 mb-4">
+            订阅我们的电子通讯，获取最新产品信息和优惠活动。
+          </p>
+          <form class="flex">
+            <input type="email" placeholder="您的邮箱地址" class="flex-1 px-4 py-2 rounded-l-lg focus:outline-none text-dark">
+            <button type="button" class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition-colors">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            © 2025 . 保留樱缘可溯所有权利.
+          </p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">隐私政策</a>
+            <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">使用条款</a>
+            <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">Cookie政策</a>
+            <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">网站地图</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 hover:bg-primary/90">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    const backToTop = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 100) {
+        navbar.classList.add('py-2', 'shadow-md');
+        navbar.classList.remove('py-3', 'shadow-sm');
+        backToTop.classList.remove('translate-y-20', 'opacity-0');
+      } else {
+        navbar.classList.add('py-3', 'shadow-sm');
+        navbar.classList.remove('py-2', 'shadow-md');
+        backToTop.classList.add('translate-y-20', 'opacity-0');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动菜单（如果打开）
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // 返回顶部按钮
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // 溯源查询按钮
+    document.querySelector('#trace button[type="button"]').addEventListener('click', function() {
+      alert('溯源功能将在正式上线后开放，敬请期待！');
+    });
+    
+    // 留言提交按钮
+    document.querySelector('#message button[type="button"]').addEventListener('click', function() {
+      alert('感谢您的留言！我们将尽快回复您。');
+    });
+  </script>
+</body>
+</html>
+    
