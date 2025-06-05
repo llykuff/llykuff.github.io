@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>西瓜全产业链溯源平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+
+  <!-- Tailwind 配置（西瓜主题：绿色和红色） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // 西瓜绿（深）
+            secondary: '#E53935', // 西瓜红
+            accent: '#FF9800',   // 西瓜籽棕
+            neutral: '#F9F5F0', // 米白色
+            dark: '#2D3748',    // 深灰
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .timeline-line {
+        @apply absolute left-5 top-6 h-full w-0.5 bg-secondary/30;
+      }
+      .timeline-dot {
+        @apply absolute left-3 top-6 h-5 w-5 rounded-full bg-secondary border-2 border-white;
+      }
+      .watermelon-gradient {
+        background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+      }
+      .watermelon-texture {
+        background-image: radial-gradient(#4CAF50 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-neutral text-dark">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-2">
+        <i class="fa-solid fa-watermelon text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-primary">瓜源追溯</span>
+      </a>
+
+      <!-- 桌面导航 -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#home" class="text-dark hover:text-primary transition-colors font-medium">首页</a>
+        <a href="#process" class="text-dark hover:text-primary transition-colors font-medium">全链流程</a>
+        <a href="#planting" class="text-dark hover:text-primary transition-colors font-medium">种植环节</a>
+        <a href="#processing" class="text-dark hover:text-primary transition-colors font-medium">加工环节</a>
+        <a href="#transport" class="text-dark hover:text-primary transition-colors font-medium">运输环节</a>
+        <a href="#sales" class="text-dark hover:text-primary transition-colors font-medium">销售环节</a>
+        <a href="#trace" class="text-dark hover:text-primary transition-colors font-medium">产品溯源</a>
+        <a href="#contact" class="text-dark hover:text-primary transition-colors font-medium">联系我们</a>
+      </nav>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-dark hover:text-primary focus:outline-none">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+        <a href="#home" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">首页</a>
+        <a href="#process" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">全链流程</a>
+        <a href="#planting" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">种植环节</a>
+        <a href="#processing" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">加工环节</a>
+        <a href="#transport" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">运输环节</a>
+        <a href="#sales" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">销售环节</a>
+        <a href="#trace" class="text-dark hover:text-primary transition-colors py-2 border-b border-gray-100">产品溯源</a>
+        <a href="#contact" class="text-dark hover:text-primary transition-colors py-2">联系我们</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 首页/英雄区 -->
+  <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-primary/5 to-neutral watermelon-texture">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+          <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-dark mb-4">
+            西瓜<span class="text-primary">全产业链</span><br>透明化追溯平台
+          </h1>
+          <p class="text-lg text-gray-600 mb-8 max-w-lg">
+            从瓜田到餐桌，全程透明化追溯，每一个西瓜都有自己的"成长档案"，让您吃得安心，享受自然甜蜜。
+          </p>
+          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#trace" class="px-8 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+              <i class="fa-solid fa-search mr-2"></i>立即溯源
+            </a>
+            <a href="#process" class="px-8 py-3 bg-white hover:bg-gray-50 text-primary border border-primary font-medium rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 text-center">
+              <i class="fa-solid fa-info-circle mr-2"></i>了解流程
+            </a>
+          </div>
+        </div>
+        <div class="md:w-1/2 relative">
+          <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <img src="images/1.jpeg" alt="新鲜西瓜" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+              <div class="p-6">
+                <span class="bg-secondary/90 text-white text-sm font-medium px-3 py-1 rounded-full">糖度≥12°</span>
+                <h3 class="text-white text-xl font-bold mt-2">每一个都来自优质产区</h3>
+              </div>
+            </div>
+          </div>
+          <!-- 装饰元素 -->
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 全链流程概览 -->
+  <section id="process" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          全程标准化管理
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">从种植到销售的<span class="text-primary">全链条</span>管控</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">我们严格把控每一个环节，确保您品尝到的每一个西瓜都是安全、清甜、多汁的。</p>
+      </div>
+
+      <!-- 流程时间线 -->
+      <div class="relative">
+        <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-secondary/30 transform -translate-x-1/2"></div>
+        
+        <!-- 流程步骤 -->
+        <div class="space-y-16 relative">
+          <!-- 步骤1：种植 -->
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  3-5月
+                </span>
+                <h3 class="text-xl font-bold mb-3">生态种植</h3>
+                <p class="text-gray-600">采用科学种植方式，引用优质水源灌溉，严格遵循自然农法，拒绝化学肥料。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2 text-right">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">土壤有机质</span>
+                    <p class="text-dark font-bold">≥3%</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">灌溉水源</span>
+                    <p class="text-dark font-bold">山泉水</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-seedling text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/2.jpg" alt="西瓜种植" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤2：培育 -->
+          <div class="flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 md:pl-12 md:text-left mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  4-6月
+                </span>
+                <h3 class="text-xl font-bold mb-3">精心培育</h3>
+                <p class="text-gray-600">专业农技人员全程呵护，记录生长周期，确保每颗西瓜健康成长。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">生长周期</span>
+                    <p class="text-dark font-bold">80-90天</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">光照时间</span>
+                    <p class="text-dark font-bold">≥12小时/天</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-leaf text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pr-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/3.jpg" alt="西瓜培育" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤3：采摘 -->
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  6-7月
+                </span>
+                <h3 class="text-xl font-bold mb-3">适时采摘</h3>
+                <p class="text-gray-600">根据西瓜成熟度科学采摘，确保最佳口感和营养，当天采摘当天发货。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2 text-right">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">糖度标准</span>
+                    <p class="text-dark font-bold">≥12°</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">采摘方式</span>
+                    <p class="text-dark font-bold">人工精选</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-scissors text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/4.jpg" alt="西瓜采摘" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤4：加工 -->
+          <div class="flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 md:pl-12 md:text-left mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  7-8月
+                </span>
+                <h3 class="text-xl font-bold mb-3">筛选分级</h3>
+                <p class="text-gray-600">采用专业检测，精准分级糖度、瓜径、瑕疵，确保每个西瓜品质一致。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">分级标准</span>
+                    <p class="text-dark font-bold">4级分类</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">检测项目</span>
+                    <p class="text-dark font-bold">8项指标</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pr-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/5.jpg" alt="西瓜加工" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤5：运输 -->
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  7-8月
+                </span>
+                <h3 class="text-xl font-bold mb-3">冷链运输</h3>
+                <p class="text-gray-600">全程2-6℃冷链运输，实时监控温湿度，确保西瓜在途品质稳定。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2 text-right">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">运输温度</span>
+                    <p class="text-dark font-bold">2-6℃</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">监控频率</span>
+                    <p class="text-dark font-bold">实时监控</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-truck-refrigerator text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/6.jpg" alt="西瓜运输" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+          
+          <!-- 步骤6：销售 -->
+          <div class="flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 md:pl-12 md:text-left mb-8 md:mb-0">
+              <div class="inline-block">
+                <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-2">
+                  7月-9月
+                </span>
+                <h3 class="text-xl font-bold mb-3">广泛销售</h3>
+                <p class="text-gray-600">覆盖全国各大城市，并出口至周边国家，让世界品尝中国甜。</p>
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">国内覆盖</span>
+                    <p class="text-dark font-bold">30+城市</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">出口国家</span>
+                    <p class="text-dark font-bold">5+国家</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-12 flex justify-center relative">
+              <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-globe text-xl"></i>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pr-12">
+              <div class="rounded-xl overflow-hidden shadow-lg card-hover">
+                <img src="images/7.png" alt="西瓜销售" class="w-full h-auto">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 种植环节 -->
+  <section id="planting" class="py-16 bg-neutral">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          优生优育
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">有机种植<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">从源头开始，我们选择优质产区，为西瓜生长提供理想环境。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 基地环境 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 overflow-hidden">
+            <img src="images/8.jpeg" alt="种植基地" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
+              优质西瓜种植基地
+            </h3>
+            <p class="text-gray-600 mb-4">
+              基地位于光照充足、水源优质的地区，昼夜温差适宜，造就西瓜高糖度。
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">土壤有机质</span>
+                <p class="text-dark font-bold">≥3%</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">年日照时长</span>
+                <p class="text-dark font-bold">≥2800小时</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">昼夜温差</span>
+                <p class="text-dark font-bold">≥12℃</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-3">
+                <span class="text-sm text-gray-500">灌溉水源</span>
+                <p class="text-dark font-bold">山泉水</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 种植技术 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 overflow-hidden">
+            <img src="images/9.png" alt="种植技术" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-flask text-primary mr-2"></i>
+              科学种植技术
+            </h3>
+            <p class="text-gray-600 mb-4">
+              采用有机种植方式，严格控制农药使用，确保西瓜绿色健康。
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">有机肥料</h4>
+                  <p class="text-sm text-gray-600">使用发酵有机肥，改善土壤结构</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">物理除虫</h4>
+                  <p class="text-sm text-gray-600">采用防虫网、诱虫灯等物理方式</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">精准灌溉</h4>
+                  <p class="text-sm text-gray-600">滴灌技术，节约用水，保证水分均衡</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">人工授粉</h4>
+                  <p class="text-sm text-gray-600">保证西瓜品质和口感</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 生长周期 -->
+      <div class="mt-16 bg-white rounded-2xl shadow-lg p-8">
+        <h3 class="text-xl font-bold mb-6 text-center">西瓜生长周期</h3>
+        <div class="relative">
+          <!-- 时间线 -->
+          <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 transform -translate-x-1/2"></div>
+          
+          <div class="space-y-8 relative">
+            <!-- 发芽期 -->
+            <div class="flex flex-col md:flex-row items-center">
+              <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                <h4 class="font-bold text-lg">发芽期</h4>
+                <p class="text-gray-600 text-sm">播种至第一片真叶出现，约需7-10天</p>
+              </div>
+              <div class="md:w-12 flex justify-center relative">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-seedling text-sm"></i>
+                </div>
+              </div>
+              <div class="md:w-1/2 md:pl-12">
+                <div class="rounded-lg overflow-hidden shadow-md">
+                  <img src="images/10.jpg" alt="发芽期" class="w-full h-auto">
+                </div>
+              </div>
+            </div>
+            
+            <!-- 幼苗期 -->
+            <div class="flex flex-col md:flex-row-reverse items-center">
+              <div class="md:w-1/2 md:pl-12 md:text-left mb-4 md:mb-0">
+                <h4 class="font-bold text-lg">幼苗期</h4>
+                <p class="text-gray-600 text-sm">第一片真叶至5-6片叶，约需25-30天</p>
+              </div>
+              <div class="md:w-12 flex justify-center relative">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-leaf text-sm"></i>
+                </div>
+              </div>
+              <div class="md:w-1/2 md:pr-12">
+                <div class="rounded-lg overflow-hidden shadow-md">
+                  <img src="images/11.jpg" alt="幼苗期" class="w-full h-auto">
+                </div>
+              </div>
+            </div>
+            
+            <!-- 伸蔓期 -->
+            <div class="flex flex-col md:flex-row items-center">
+              <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                <h4 class="font-bold text-lg">伸蔓期</h4>
+                <p class="text-gray-600 text-sm">5-6片叶至第一雌花开放，约需18-20天</p>
+              </div>
+              <div class="md:w-12 flex justify-center relative">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-vine text-sm"></i>
+                </div>
+              </div>
+              <div class="md:w-1/2 md:pl-12">
+                <div class="rounded-lg overflow-hidden shadow-md">
+                  <img src="images/12.jpg" alt="伸蔓期" class="w-full h-auto">
+                </div>
+              </div>
+            </div>
+            
+            <!-- 结果期 -->
+            <div class="flex flex-col md:flex-row-reverse items-center">
+              <div class="md:w-1/2 md:pl-12 md:text-left mb-4 md:mb-0">
+                <h4 class="font-bold text-lg">结果期</h4>
+                <p class="text-gray-600 text-sm">第一雌花开放至果实成熟，约需30-40天</p>
+              </div>
+              <div class="md:w-12 flex justify-center relative">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-apple-whole text-sm"></i>
+                </div>
+              </div>
+              <div class="md:w-1/2 md:pr-12">
+                <div class="rounded-lg overflow-hidden shadow-md">
+                  <img src="images/13.jpg" alt="结果期" class="w-full h-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 加工环节 -->
+  <section id="processing" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          精细筛选
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">加工<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">采摘后的西瓜经过严格筛选和处理，确保品质一致。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 筛选检测 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/14.jpg" alt="筛选检测" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-check-circle text-primary mr-2"></i>
+              筛选检测
+            </h3>
+            <p class="text-gray-600">
+              对西瓜进行外观、糖度、成熟度等多项检测，剔除不符合标准的产品。
+            </p>
+            <ul class="mt-4 space-y-2">
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                糖度检测（≥12°）
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                重量筛选（5-10kg）
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                外观瑕疵检查
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                成熟度评估
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 清洗消毒 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/15.jpg" alt="清洗消毒" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-shower text-primary mr-2"></i>
+              清洗消毒
+            </h3>
+            <p class="text-gray-600">
+              采用食品级消毒剂进行清洗，确保西瓜表面干净卫生，无农药残留。
+            </p>
+            <ul class="mt-4 space-y-2">
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                三级清洗流程
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                食品级消毒剂
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                清水冲洗残留
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                风干处理
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 包装标识 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/16.jpg" alt="包装标识" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-box text-primary mr-2"></i>
+              包装标识
+            </h3>
+            <p class="text-gray-600">
+              采用环保包装材料，标识溯源二维码，方便消费者查询产品信息。
+            </p>
+            <ul class="mt-4 space-y-2">
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                环保纸箱包装
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                贴附溯源二维码
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                产品信息标签
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                防震缓冲设计
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 运输环节 -->
+  <section id="transport" class="py-16 bg-neutral">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          全程冷链
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">运输<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">从产地到餐桌，全程冷链保障，确保西瓜新鲜直达。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 冷链运输 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 overflow-hidden">
+            <img src="images/17.jpg" alt="冷链运输" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-truck-refrigerator text-primary mr-2"></i>
+              冷链物流系统
+            </h3>
+            <p class="text-gray-600 mb-4">
+              采用专业冷藏运输设备，全程监控温度，确保西瓜在最佳环境下运输。
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-thermometer-half"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">温度控制</h4>
+                  <p class="text-sm text-gray-600">全程2-6℃冷藏运输，保持西瓜新鲜度</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">时效保障</h4>
+                  <p class="text-sm text-gray-600">48小时内送达，减少运输时间</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-map-marker"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">位置追踪</h4>
+                  <p class="text-sm text-gray-600">实时定位，掌握运输状态</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="mt-1 mr-3 text-primary">
+                  <i class="fa-solid fa-shield"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium">防震保护</h4>
+                  <p class="text-sm text-gray-600">专业包装，减少碰撞损伤</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 物流监控 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 overflow-hidden">
+            <img src="images/18.jpg" alt="物流监控" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-eye text-primary mr-2"></i>
+              全程物流监控
+            </h3>
+            <p class="text-gray-600 mb-4">
+              通过物联网技术，实时监控运输环境参数，确保每一个环节都安全可控。
+            </p>
+            <div class="bg-neutral rounded-xl p-4">
+              <h4 class="font-medium mb-4">实时监控参数</h4>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-lg p-3 shadow-sm">
+                  <span class="text-xs text-gray-500">温度</span>
+                  <div class="flex items-end">
+                    <span class="text-2xl font-bold">4.2</span>
+                    <span class="text-sm ml-1 mb-1">°C</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                    <div class="bg-primary h-1.5 rounded-full" style="width: 42%"></div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm">
+                  <span class="text-xs text-gray-500">湿度</span>
+                  <div class="flex items-end">
+                    <span class="text-2xl font-bold">78</span>
+                    <span class="text-sm ml-1 mb-1">%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                    <div class="bg-primary h-1.5 rounded-full" style="width: 78%"></div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm">
+                  <span class="text-xs text-gray-500">震动</span>
+                  <div class="flex items-end">
+                    <span class="text-2xl font-bold">12</span>
+                    <span class="text-sm ml-1 mb-1">G</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                    <div class="bg-primary h-1.5 rounded-full" style="width: 12%"></div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-sm">
+                  <span class="text-xs text-gray-500">位置</span>
+                  <div class="flex items-end">
+                    <span class="text-lg font-bold">运输中</span>
+                  </div>
+                  <div class="mt-2 text-xs text-gray-500">
+                    <i class="fa-solid fa-map-marker-alt mr-1"></i>
+                    距离目的地还有150公里
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 销售环节 -->
+  <section id="sales" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          新鲜直达
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">销售<span class="text-primary">环节</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">从产地到餐桌，全程冷链保障，确保西瓜新鲜直达。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 销售渠道 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/19.jpg" alt="销售渠道" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-store text-primary mr-2"></i>
+              多元化销售渠道
+            </h3>
+            <p class="text-gray-600">
+              通过多种渠道销售，满足不同消费者的购买需求，确保新鲜直达。
+            </p>
+            <ul class="mt-4 space-y-2">
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                大型连锁超市
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                社区生鲜店
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                电商平台
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                企业定制
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 品质保障 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/20.jpg" alt="品质保障" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-shield-check text-primary mr-2"></i>
+              品质保障承诺
+            </h3>
+            <p class="text-gray-600">
+              严格的品质控制体系，从源头到销售全程保障，让您买得放心。
+            </p>
+            <ul class="mt-4 space-y-2">
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                有机认证
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                农药残留检测
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                不满意退款
+              </li>
+              <li class="flex items-center text-sm">
+                <i class="fa-solid fa-check text-primary mr-2"></i>
+                24小时客服
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 客户评价 -->
+        <div class="bg-neutral rounded-2xl shadow-lg overflow-hidden card-hover">
+          <div class="h-48 overflow-hidden">
+            <img src="images/21.jpg" alt="客户评价" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-comments text-primary mr-2"></i>
+              客户真实评价
+            </h3>
+            <p class="text-gray-600">
+              来自全国各地消费者的真实评价，见证我们的品质承诺。
+            </p>
+            <div class="mt-4 space-y-4">
+              <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center mb-2">
+                  <img src="https://picsum.photos/id/1027/40/40" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                  <div>
+                    <h4 class="font-medium text-sm">张先生</h4>
+                    <div class="flex text-yellow-400 text-xs">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-600">
+                  西瓜非常甜，汁水丰富，口感特别好，孩子很喜欢吃。下次还会购买！
+                </p>
+              </div>
+              <div class="bg-white rounded-lg p-4 shadow-sm">
+                <div class="flex items-center mb-2">
+                  <img src="https://picsum.photos/id/1025/40/40" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                  <div>
+                    <h4 class="font-medium text-sm">李女士</h4>
+                    <div class="flex text-yellow-400 text-xs">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-600">
+                  包装很好，西瓜很新鲜，切开后果肉鲜红，甜度适中，值得推荐。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 产品溯源 -->
+  <section id="trace" class="py-16 bg-gradient-to-b from-neutral to-primary/5">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          一键溯源
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">产品<span class="text-primary">溯源</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">扫描二维码，了解您购买的西瓜从种植到销售的全过程信息。</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <!-- 溯源查询 -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-8">
+          <h3 class="text-xl font-bold mb-6">西瓜溯源查询</h3>
+          <p class="text-gray-600 mb-6">
+            输入西瓜包装上的溯源码或扫描二维码，即可查询该西瓜的详细信息。
+          </p>
+          
+          <div class="space-y-6">
+            <!-- 溯源码输入 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">溯源码</label>
+              <div class="flex">
+                <input type="text" placeholder="请输入溯源码" class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <button class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-r-lg transition-colors">
+                  查询
+                </button>
+              </div>
+            </div>
+            
+            <!-- 二维码扫描 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">扫描二维码</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <div class="w-32 h-32 bg-gray-100 rounded-lg mx-auto flex items-center justify-center mb-4">
+                  <i class="fa-solid fa-qrcode text-4xl text-gray-400"></i>
+                </div>
+                <p class="text-sm text-gray-500">点击上传二维码图片或使用摄像头扫描</p>
+                <button class="mt-4 text-primary text-sm font-medium">
+                  <i class="fa-solid fa-camera mr-1"></i> 打开摄像头
+                </button>
+              </div>
+            </div>
+            
+            <!-- 最近查询 -->
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <label class="block text-sm font-medium text-gray-700">最近查询</label>
+                <a href="#" class="text-primary text-sm">查看全部</a>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-3">
+                    <i class="fa-solid fa-barcode"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium">WT20230615001</p>
+                    <p class="text-xs text-gray-500">2023-06-15 10:23:45</p>
+                  </div>
+                  <button class="text-gray-400 hover:text-primary">
+                    <i class="fa-solid fa-ellipsis-v"></i>
+                  </button>
+                </div>
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                  <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-3">
+                    <i class="fa-solid fa-barcode"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium">WT20230612005</p>
+                    <p class="text-xs text-gray-500">2023-06-12 15:47:12</p>
+                  </div>
+                  <button class="text-gray-400 hover:text-primary">
+                    <i class="fa-solid fa-ellipsis-v"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 溯源结果 -->
+        <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div class="bg-primary p-6 text-white">
+            <div class="flex items-center">
+              <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mr-4">
+                <i class="fa-solid fa-info text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold">产品溯源信息</h3>
+                <p class="text-white/80 text-sm">WT20230615001 · 麒麟西瓜</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <!-- 基本信息 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">品种</span>
+                <p class="font-bold">麒麟西瓜</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">产地</span>
+                <p class="font-bold">新疆吐鲁番</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">采摘日期</span>
+                <p class="font-bold">2023-06-15</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">重量</span>
+                <p class="font-bold">6.8kg</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">糖度</span>
+                <p class="font-bold">13.2°</p>
+              </div>
+              <div class="bg-neutral rounded-lg p-4">
+                <span class="text-xs text-gray-500">保质期</span>
+                <p class="font-bold">7-10天</p>
+              </div>
+            </div>
+            
+            <!-- 溯源时间线 -->
+            <h4 class="font-bold mb-4">溯源时间线</h4>
+            <div class="relative pl-8 space-y-6">
+              <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/20"></div>
+              
+              <!-- 种植信息 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">种植信息</h5>
+                    <span class="text-xs text-gray-500">2023-03-20</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    该西瓜种植于新疆吐鲁番优质基地，采用有机种植方式，使用发酵有机肥，山泉水灌溉。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-user mr-1"></i>
+                    <span>种植负责人：王师傅</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 施肥记录 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-tint"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">施肥记录</h5>
+                    <span class="text-xs text-gray-500">2023-04-15</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    使用发酵有机肥，富含氮、磷、钾等多种微量元素，确保西瓜健康生长。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-flask mr-1"></i>
+                    <span>肥料类型：发酵有机肥</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 病虫害防治 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-bug"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">病虫害防治</h5>
+                    <span class="text-xs text-gray-500">2023-05-20</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    采用物理防治方式，安装防虫网、诱虫灯，未使用化学农药。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-shield mr-1"></i>
+                    <span>防治方式：物理防治</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 采摘记录 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-scissors"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">采摘记录</h5>
+                    <span class="text-xs text-gray-500">2023-06-15</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    由专业人员手工采摘，经检测糖度达到13.2°，符合优质西瓜标准。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-user mr-1"></i>
+                    <span>采摘员：李师傅</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 加工包装 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-box"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">加工包装</h5>
+                    <span class="text-xs text-gray-500">2023-06-15</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    经过清洗、消毒、筛选后，使用环保纸箱包装，并贴上溯源二维码。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-building mr-1"></i>
+                    <span>加工厂：新疆吐鲁番西瓜加工厂</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 运输信息 -->
+              <div class="relative">
+                <div class="absolute left-[-19px] top-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md z-10">
+                  <i class="fa-solid fa-truck"></i>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <div class="flex justify-between items-center mb-2">
+                    <h5 class="font-medium">运输信息</h5>
+                    <span class="text-xs text-gray-500">2023-06-16</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">
+                    采用4℃冷链运输，全程监控温湿度，预计2023-06-18送达目的地。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fa-solid fa-truck-refrigerator mr-1"></i>
+                    <span>物流公司：XX冷链物流</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 检测报告 -->
+            <div class="mt-8">
+              <h4 class="font-bold mb-4">检测报告</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <h5 class="font-medium mb-2">农药残留检测</h5>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>检测项目</span>
+                    <span>检测结果</span>
+                  </div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>有机磷类</span>
+                    <span class="text-green-600">未检出</span>
+                  </div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>氨基甲酸酯类</span>
+                    <span class="text-green-600">未检出</span>
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span>拟除虫菊酯类</span>
+                    <span class="text-green-600">未检出</span>
+                  </div>
+                </div>
+                <div class="bg-neutral rounded-lg p-4 shadow-sm">
+                  <h5 class="font-medium mb-2">营养成分</h5>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>成分</span>
+                    <span>含量</span>
+                  </div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>维生素C</span>
+                    <span>10.2mg/100g</span>
+                  </div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>葡萄糖</span>
+                    <span>4.2g/100g</span>
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span>水分</span>
+                    <span>93.3g/100g</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section id="contact" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+          联系我们
+        </span>
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">有任何疑问？<span class="text-primary">请联系我们</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">我们的专业团队将为您提供详细的咨询和服务。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 联系信息 -->
+        <div class="bg-neutral rounded-2xl shadow-lg p-8">
+          <h3 class="text-xl font-bold mb-6">联系方式</h3>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                <i class="fa-solid fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">公司地址</h4>
+                <p class="text-gray-600">新疆维吾尔自治区吐鲁番市高昌区葡萄沟路123号</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">联系电话</h4>
+                <p class="text-gray-600">400-123-4567</p>
+                <p class="text-gray-600">0995-1234567</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">电子邮箱</h4>
+                <p class="text-gray-600">info@watermelon-trace.com</p>
+                <p class="text-gray-600">service@watermelon-trace.com</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">工作时间</h4>
+                <p class="text-gray-600">周一至周五: 9:00 - 18:00</p>
+                <p class="text-gray-600">周六至周日: 10:00 - 16:00</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <h4 class="font-medium mb-4">关注我们</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                <i class="fa-brands fa-weixin"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                <i class="fa-brands fa-weibo"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="#" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 联系表单 -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <h3 class="text-xl font-bold mb-6">发送消息</h3>
+          
+          <form>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的姓名">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
+                <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的电话">
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-1">电子邮箱</label>
+              <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的电子邮箱">
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-1">主题</label>
+              <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="">请选择咨询主题</option>
+                <option value="product">产品咨询</option>
+                <option value="trace">溯源查询</option>
+                <option value="cooperation">合作洽谈</option>
+                <option value="other">其他问题</option>
+              </select>
+            </div>
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-1">消息内容</label>
+              <textarea rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的消息内容"></textarea>
+            </div>
+            
+            <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 rounded-lg transition-colors">
+              发送消息
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- 公司信息 -->
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <i class="fa-solid fa-watermelon text-primary text-2xl"></i>
+            <span class="text-xl font-bold">瓜源追溯</span>
+          </div>
+          <p class="text-gray-400 mb-4">
+            专注于西瓜全产业链透明化追溯，让每一个西瓜都有自己的"身份证"。
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+              <i class="fa-brands fa-weixin"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+              <i class="fa-brands fa-weibo"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 快速链接 -->
+        <div>
+          <h4 class="text-lg font-bold mb-4">快速链接</h4>
+          <ul class="space-y-2">
+            <li><a href="#home" class="text-gray-400 hover:text-primary transition-colors">首页</a></li>
+            <li><a href="#process" class="text-gray-400 hover:text-primary transition-colors">全链流程</a></li>
+            <li><a href="#planting" class="text-gray-400 hover:text-primary transition-colors">种植环节</a></li>
+            <li><a href="#processing" class="text-gray-400 hover:text-primary transition-colors">加工环节</a></li>
+            <li><a href="#transport" class="text-gray-400 hover:text-primary transition-colors">运输环节</a></li>
+            <li><a href="#sales" class="text-gray-400 hover:text-primary transition-colors">销售环节</a></li>
+            <li><a href="#trace" class="text-gray-400 hover:text-primary transition-colors">产品溯源</a></li>
+          </ul>
+        </div>
+        
+        <!-- 联系我们 -->
+        <div>
+          <h4 class="text-lg font-bold mb-4">联系我们</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center text-gray-400">
+              <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
+              <span>新疆维吾尔自治区吐鲁番市高昌区葡萄沟路123号</span>
+            </li>
+            <li class="flex items-center text-gray-400">
+              <i class="fa-solid fa-phone text-primary mr-2"></i>
+              <span>400-123-4567</span>
+            </li>
+            <li class="flex items-center text-gray-400">
+              <i class="fa-solid fa-envelope text-primary mr-2"></i>
+              <span>info@watermelon-trace.com</span>
+            </li>
+            <li class="flex items-center text-gray-400">
+              <i class="fa-solid fa-clock text-primary mr-2"></i>
+              <span>周一至周五: 9:00 - 18:00</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- 订阅 -->
+        <div>
+          <h4 class="text-lg font-bold mb-4">订阅我们</h4>
+          <p class="text-gray-400 mb-4">
+            订阅我们的新闻通讯，获取最新的西瓜资讯和优惠活动。
+          </p>
+          <form class="flex">
+            <input type="email" placeholder="请输入您的电子邮箱" class="flex-1 px-4 py-2 rounded-l-lg focus:outline-none">
+            <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-r-lg transition-colors">
+              订阅
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm mb-4 md:mb-0">
+          &copy; 2023 瓜源追溯. 保留所有权利.
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">隐私政策</a>
+          <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">使用条款</a>
+          <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">法律声明</a>
+          <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">网站地图</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg opacity-0 invisible transition-all z-50">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', function() {
+      if ( window.addEventListener('scroll', function() {
+      if (window.scrollY > 100) {
+        navbar.classList.add('py-2', 'shadow-md');
+        navbar.classList.remove('py-3', 'shadow-sm');
+        backToTopBtn.classList.remove('opacity-0', 'invisible');
+        backToTopBtn.classList.add('opacity-100', 'visible');
+      } else {
+        navbar.classList.add('py-3', 'shadow-sm');
+        navbar.classList.remove('py-2', 'shadow-md');
+        backToTopBtn.classList.add('opacity-0', 'invisible');
+        backToTopBtn.classList.remove('opacity-100', 'visible');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // 关闭移动端菜单
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+          }
+        }
+      });
+    });
+    
+    // 返回顶部按钮
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // 溯源查询表单提交
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('消息已发送，我们将尽快与您联系！');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
